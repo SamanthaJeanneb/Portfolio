@@ -10,30 +10,22 @@ import { EnhancedScrollIndicator } from "@/components/enhanced-scroll-indicator"
 import { AnimatedSection } from "@/components/animated-section"
 import { PortfolioHeader } from "@/components/portfolio-header"
 import { ProjectProcess } from "@/components/project-process"
-
 interface ProjectPageProps {
   params: {
     slug: string
   }
 }
-
 export default function ProjectPage({ params }: ProjectPageProps) {
   const project = getProjectBySlug(params.slug)
 
   if (!project) {
     notFound()
   }
-
   return (
     <main className="min-h-screen bg-black text-white">
-      {/* Background Grid Pattern */}
       <div className="fixed inset-0 bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:20px_20px] opacity-20 z-0"></div>
-
-      {/* Header */}
       <PortfolioHeader />
-
       <div className="relative z-10 container mx-auto p-3 sm:p-4 pt-20 sm:pt-24 pb-6 sm:pb-8">
-        {/* Back Button */}
         <AnimatedSection animation="fade-in">
           <Link
             href="/"
@@ -43,33 +35,52 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             Back to Portfolio
           </Link>
         </AnimatedSection>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-          {/* Project Header */}
-          <AnimatedSection animation="fade-up" className="lg:col-span-3">
-            <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm overflow-hidden">
-              <div className="relative h-48 sm:h-64 md:h-80 w-full">
-                <Image
-                  src={project.coverImage || "/placeholder.svg"}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 p-4 sm:p-6">
-                  <div className="text-xs sm:text-sm text-cyan-400 mb-1 sm:mb-2">{project.category}</div>
-                  <h1 className="text-xl sm:text-3xl md:text-4xl font-bold">{project.title}</h1>
-                  <p className="text-sm text-zinc-400 mt-1 sm:mt-2 max-w-2xl">{project.shortDescription}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <div className="space-y-4 sm:space-y-6">
+            <AnimatedSection animation="fade-up">
+              <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm overflow-hidden">
+                <div className="relative h-48 sm:h-64 md:h-80 w-full">
+                  <Image
+                    src={project.coverImage || "/placeholder.svg"}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 p-4 sm:p-6">
+                    <div className="text-xs sm:text-sm text-cyan-400 mb-1 sm:mb-2">{project.category}</div>
+                    <h1 className="text-xl sm:text-3xl md:text-4xl font-bold">{project.title}</h1>
+                    <p className="text-sm text-zinc-400 mt-1 sm:mt-2 max-w-2xl">{project.shortDescription}</p>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          </AnimatedSection>
+              </Card>
+            </AnimatedSection>
 
-          {/* Project Content */}
-          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             <AnimatedSection animation="fade-up" delay={100}>
               <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
                 <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-wrap gap-2 sm:gap-3 mb-4">
+                    {project.liveUrl && (
+                      <Button
+                        asChild
+                        size="sm"
+                        className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-xs sm:text-sm"
+                      >
+                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                          View Live Project
+                        </a>
+                      </Button>
+                    )}
+                    {project.githubUrl && (
+                      <Button asChild variant="outline" size="sm" className="text-xs sm:text-sm">
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                          <Github className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+                          View Source Code
+                        </a>
+                      </Button>
+                    )}
+                  </div>
                   <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Project Overview</h2>
                   <div className="space-y-3 sm:space-y-4 text-sm sm:text-base text-zinc-300">
                     {project.description.map((paragraph, index) => (
@@ -97,26 +108,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
 
                   <AnimatedSection animation="fade-up" delay={400}>
                     <div className="flex flex-wrap gap-2 sm:gap-3 mt-6 sm:mt-8">
-                      {project.liveUrl && (
-                        <Button
-                          asChild
-                          size="sm"
-                          className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-xs sm:text-sm"
-                        >
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                            View Live Project
-                          </a>
-                        </Button>
-                      )}
-                      {project.githubUrl && (
-                        <Button asChild variant="outline" size="sm" className="text-xs sm:text-sm">
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                            <Github className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                            View Source Code
-                          </a>
-                        </Button>
-                      )}
                       {project.figmaUrl && (
                         <Button asChild variant="outline" size="sm" className="text-xs sm:text-sm">
                           <a href={project.figmaUrl} target="_blank" rel="noopener noreferrer">
@@ -131,16 +122,8 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               </Card>
             </AnimatedSection>
 
-            {/* Project Process Section */}
-            {project.process && project.process.length > 0 && (
-              <AnimatedSection animation="fade-up" delay={150}>
-                <ProjectProcess steps={project.process} />
-              </AnimatedSection>
-            )}
-
-            {/* Project Gallery */}
             {project.gallery && project.gallery.length > 0 && (
-              <AnimatedSection animation="fade-up" delay={200}>
+              <AnimatedSection animation="fade-up" delay={500}>
                 <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
                   <CardContent className="p-4 sm:p-6">
                     <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Project Gallery</h2>
@@ -164,13 +147,17 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             )}
           </div>
 
-          {/* Project Sidebar */}
-          <div className="space-y-4 sm:space-y-6">
-            <AnimatedSection animation="slide-left" delay={100}>
+          <div className="space-y-4 sm:space-y-6 flex flex-col">
+            {project.process && project.process.length > 0 && (
+              <AnimatedSection animation="slide-left" delay={100}>
+                <ProjectProcess steps={project.process} />
+              </AnimatedSection>
+            )}
+
+            <AnimatedSection animation="slide-left" delay={150}>
               <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
                 <CardContent className="p-4 sm:p-6">
                   <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Project Details</h2>
-
                   <div className="space-y-3 sm:space-y-4">
                     <div>
                       <h3 className="text-xs sm:text-sm font-medium text-zinc-400">Client</h3>
@@ -191,7 +178,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
               </Card>
             </AnimatedSection>
 
-            {/* Next Projects */}
             <AnimatedSection animation="slide-left" delay={200}>
               <Card className="bg-zinc-900/70 border-zinc-800 backdrop-blur-sm">
                 <CardContent className="p-4 sm:p-6">
@@ -227,7 +213,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </div>
 
-        {/* Footer */}
         <AnimatedSection
           animation="fade-in"
           delay={500}
@@ -236,8 +221,6 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           <p>© {new Date().getFullYear()} Samantha J. Brown. All rights reserved.</p>
         </AnimatedSection>
       </div>
-
-      {/* Scroll to Top Button */}
       <EnhancedScrollIndicator />
     </main>
   )

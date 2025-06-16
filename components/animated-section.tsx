@@ -36,17 +36,13 @@ export function AnimatedSection({
 
   const { settings } = useAnimation()
   const shouldAnimate = settings.enabled || forceAnimate
-
-  // Calculate actual delay based on settings
   const actualDelay = (delay * settings.delay) / 100
 
-  // Calculate transform values based on intensity
   const getTransformValue = (baseValue: number) => {
     return baseValue * settings.intensity
   }
 
   const getAnimationClasses = () => {
-    // If animations are disabled, return empty classes
     if (!shouldAnimate) {
       return ""
     }
@@ -76,7 +72,6 @@ export function AnimatedSection({
     return `${baseClasses} ${delayClass} opacity-100 translate-y-0 translate-x-0 scale-100`
   }
 
-  // Generate inline styles for custom duration and easing
   const getAnimationStyles = () => {
     if (!shouldAnimate) {
       return {}
@@ -112,7 +107,6 @@ export function AnimatedSection({
     }
     return "translate3d(0, 0, 0) scale(1)"
   }
-
   return (
     <section ref={ref as any} className={cn(className)} style={getAnimationStyles()} id={id}>
       {children}

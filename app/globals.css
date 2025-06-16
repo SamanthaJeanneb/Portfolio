@@ -45,7 +45,6 @@ body {
     text-wrap: balance;
   }
 
-  /* Custom Scrollbar */
   .scrollbar-thin {
     scrollbar-width: thin;
   }
